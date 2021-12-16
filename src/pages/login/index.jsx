@@ -59,7 +59,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="hidden lg:flex items-center justify-center bg-indigo-100 flex-1 h-screen">
+      <div className="hidden lg:flex items-center justify-center bg-indigo-100 flex-1 h-auto">
         <div className="max-w-xs transform duration-200 hover:scale-110 cursor-pointer">
           <svg
             className="w-5/6 mx-auto"
