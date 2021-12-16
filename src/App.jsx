@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import './App.css';
-
 import Contracts from './components/contracts';
 import Dashboard from './components/dashboard';
 import Home from './components/home';
