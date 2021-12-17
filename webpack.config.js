@@ -65,11 +65,10 @@ module.exports = {
     //   ],
     // }),
     new Dotenv({
-      path: '.env',
+      path: './.env',
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "public", "index.html"),
-      favicon: path.join(__dirname, "public", "favicon.ico"),
+      template: './public/index.html',
       title: "Contract Management"
     }),
   ],
