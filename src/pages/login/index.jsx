@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const Login = () => {
+  console.warn(process.env.API_URL);
   return (
     <div className="lg:flex">
       <div className="lg:w-1/2 xl:max-w-screen-sm">
