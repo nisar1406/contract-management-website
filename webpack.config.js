@@ -1,14 +1,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const Dotenv = require('dotenv-webpack')
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
   // Control how source maps are generated
-  // devtool: 'inline-source-map',
+  devtool: 'source-map',
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, 'dist'),
     chunkFilename: '[id][contenthash].js'
   },
   devServer: {
@@ -17,7 +17,7 @@ module.exports = {
     open: false,
     compress: true,
     hot: true,
-    port: 3000,
+    port: 3000
   },
   resolve: {
     extensions: ['.js', '.jsx']
@@ -28,7 +28,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react']
           }
@@ -37,16 +37,16 @@ module.exports = {
       {
         test: /\.css$/i,
         include: path.resolve(__dirname, 'src'),
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: ['style-loader', 'css-loader', 'postcss-loader']
       },
       {
         test: /\.(png|jp(e*)g|svg|gif)$/,
-        use: ['file-loader'],
+        use: ['file-loader']
       },
       {
         test: /\.svg$/,
-        use: ['@svgr/webpack'],
-      },
+        use: ['@svgr/webpack']
+      }
     ]
   },
   plugins: [
@@ -65,11 +65,11 @@ module.exports = {
     //   ],
     // }),
     new Dotenv({
-      path: './.env',
+      path: './.env'
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      title: "Contract Management"
-    }),
-  ],
-}
+      title: 'Contract Management'
+    })
+  ]
+};
