@@ -1,6 +1,6 @@
 import { fetchApi } from '../../config/api-service';
 
-const fetchApiData = async ({ apiUrl, apiMethod, payload, flag }) => {
+export const fetchApiData = async ({ apiUrl, apiMethod, payload, flag }) => {
   let data;
   try {
     const apiResponse = await fetchApi({
@@ -16,4 +16,10 @@ const fetchApiData = async ({ apiUrl, apiMethod, payload, flag }) => {
   return data;
 };
 
-export default fetchApiData;
+export const setSessionStorage = (key, value) => {
+  return sessionStorage.setItem(key, value);
+};
+
+export const getSessionStorage = (key) => {
+  return sessionStorage.getItem(key);
+};

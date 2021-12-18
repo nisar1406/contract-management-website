@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import isEmpty from 'lodash.isempty';
 
-import fetchApiData from '../../utils/helpers';
+import { fetchApiData, getSessionStorage, setSessionStorage } from '../../utils/helpers';
 
 import Loader from '../../components/loader';
 import Modal from '../../components/common/modal';
 
-const Login = () => {
-  const navigate = useNavigate();
+const Login = ({ navigate }) => {
+  if (getSessionStorage('token')) navigate('/dashboard', { replace: true });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
@@ -29,8 +29,10 @@ const Login = () => {
       payload: data,
       flag: false
     });
-    if (apiResponse?.success) sessionStorage.setItem('token', apiResponse?.data?.token);
-    else {
+    if (apiResponse?.success) {
+      setSessionStorage('token', apiResponse?.token);
+      navigate('/dashboard', { replace: true });
+    } else {
       const buttonProps =
         apiResponse?.data?.message === 'Invalid credentials.'
           ? { link: '/login', message: 'Back to login.' }
