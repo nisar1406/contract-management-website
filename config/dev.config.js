@@ -1,11 +1,9 @@
-
 const path = require('path');
-const Dotenv = require('dotenv-webpack')
-const { merge } = require('webpack-merge')
-const base = require('./base.config.js')
+const Dotenv = require('dotenv-webpack');
+const { merge } = require('webpack-merge');
+const base = require('./base.config.js');
 
 module.exports = merge(base, {
-
   mode: 'development',
   // Control how source maps are generated
   devtool: 'inline-source-map',
@@ -15,7 +13,7 @@ module.exports = merge(base, {
     open: false,
     compress: true,
     hot: true,
-    port: 3002,
+    port: 3002
   },
 
   module: {
@@ -31,18 +29,18 @@ module.exports = merge(base, {
               // ... other options
               plugins: [
                 // ... other plugins
-                require.resolve('react-refresh/babel'),
-              ].filter(Boolean),
-            },
-          },
-        ],
-      },
-    ],
+                require.resolve('react-refresh/babel')
+              ].filter(Boolean)
+            }
+          }
+        ]
+      }
+    ]
   },
   plugins: [
     new Dotenv({
-      path: '.env',
-    }),
+      path: '.env'
+    })
     // new webpack.HotModuleReplacementPlugin()
-  ],
+  ]
 });

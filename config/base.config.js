@@ -7,7 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, 'dist'),
     chunkFilename: '[id][contenthash].js'
   },
   devServer: {
@@ -16,7 +16,7 @@ module.exports = {
     open: false,
     compress: true,
     hot: true,
-    port: 3006,
+    port: 3006
   },
   resolve: {
     extensions: ['.js', '.jsx']
@@ -27,7 +27,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react']
           }
@@ -36,16 +36,16 @@ module.exports = {
       {
         test: /\.css$/i,
         include: path.resolve(__dirname, 'src'),
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: ['style-loader', 'css-loader', 'postcss-loader']
       },
       {
         test: /\.(png|jp(e*)g|svg|gif)$/,
-        use: ['file-loader'],
+        use: ['file-loader']
       },
       {
         test: /\.svg$/,
-        use: ['@svgr/webpack'],
-      },
+        use: ['@svgr/webpack']
+      }
     ]
   },
   plugins: [
@@ -55,17 +55,17 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.join(__dirname, "src", "/assets"),
+          from: path.join(__dirname, 'src', '/assets'),
           to: 'assets',
           globOptions: {
-            ignore: ['*.DS_Store'],
-          },
-        },
-      ],
+            ignore: ['*.DS_Store']
+          }
+        }
+      ]
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "../public", "index.html"),
-      title: "Contract Management"
-    }),
-  ],
-}
+      template: path.join(__dirname, '../public', 'index.html'),
+      title: 'Contract Management'
+    })
+  ]
+};

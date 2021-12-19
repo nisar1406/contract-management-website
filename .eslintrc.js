@@ -24,6 +24,7 @@ module.exports = {
     semi: ['error', 'always'],
     quotes: ['error', 'single'],
     'no-console': ['error', { allow: ['warn', 'error'] }],
+    'react/jsx-props-no-spreading': [0],
     'react/function-component-definition': [
       0,
       {
