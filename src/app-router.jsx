@@ -15,7 +15,7 @@ const AppRouter = () => {
   const publicRoutes = routes && routes.filter((route) => !route.isPrivate);
 
   return (
-    <Layout>
+    <Layout navigate={navigate}>
       <Routes>
         {privateRoutes &&
           privateRoutes.map((route) => {

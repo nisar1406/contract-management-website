@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import isEmpty from 'lodash.isempty';
@@ -7,17 +8,19 @@ import { fetchApiData, getSessionStorage, setSessionStorage } from '../../utils/
 
 import Loader from '../../components/loader';
 import Modal from '../../components/common/modal';
+import { appMessages } from '../../utils/constants';
 
 const Login = ({ navigate }) => {
   if (getSessionStorage('token')) navigate('/dashboard', { replace: true });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({});
+  const [errorModal, setErrorModal] = useState({});
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    resetField
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -42,28 +45,30 @@ const Login = ({ navigate }) => {
         status: apiResponse?.status,
         buttonProps
       };
-      setError(apiError);
+      setErrorModal(apiError);
     }
     setLoading(false);
   };
 
   const handleClick = (path) => {
-    if (path === '/login') setError({});
-    else navigate('/sign-up', { replace: true });
+    if (path === '/login') {
+      setErrorModal({});
+      resetField('password');
+    } else navigate('/sign-up', { replace: true });
   };
 
   return (
     <div className="lg:flex">
-      {!isEmpty(error) && (
+      {!isEmpty(errorModal) && (
         <Modal
-          title={error?.data?.message}
-          buttonProps={error?.buttonProps}
+          title={errorModal?.data?.message}
+          buttonProps={errorModal?.buttonProps}
           handleClose={handleClick}
           handleClick={handleClick}
         />
       )}
       {loading && <Loader />}
-      {isEmpty(error) && (
+      {isEmpty(errorModal) && (
         <>
           <div className="lg:w-1/2 xl:max-w-screen-sm">
             <div className="mt-10 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-24 xl:max-w-2xl">
@@ -83,7 +88,7 @@ const Login = ({ navigate }) => {
                       type="email"
                       placeholder="mike@gmail.com"
                       {...register('email', {
-                        required: 'Email is required.',
+                        required: 'Email is required',
                         pattern: {
                           value:
                             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -91,7 +96,7 @@ const Login = ({ navigate }) => {
                         }
                       })}
                     />
-                    {errors?.email?.message}
+                    <span className="text-red-500">{errors?.email?.message}</span>
                   </div>
                   <div className="mt-8">
                     <div className="flex justify-between items-center">
@@ -110,7 +115,7 @@ const Login = ({ navigate }) => {
                       placeholder="Enter your password"
                       {...register('password', { required: 'Password is required' })}
                     />
-                    {errors?.password?.message}
+                    <span className="text-red-500">{errors?.password?.message}</span>
                   </div>
                   <div className="mt-10">
                     <button
@@ -123,7 +128,7 @@ const Login = ({ navigate }) => {
                   </div>
                 </form>
                 <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
-                  Don&apos;t have an account?{' '}
+                  {appMessages?.dontHaveAccount}
                   <NavLink
                     to="/sign-up"
                     className="cursor-pointer text-indigo-600 hover:text-indigo-800">
@@ -288,6 +293,10 @@ const Login = ({ navigate }) => {
       )}
     </div>
   );
+};
+
+Login.propTypes = {
+  navigate: PropTypes.func.isRequired
 };
 
 export default Login;
