@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import NotFound from './pages/error/404-page';
@@ -14,36 +14,28 @@ const AppRouter = () => {
   const privateRoutes = routes && routes.filter((route) => route.isPrivate);
   const publicRoutes = routes && routes.filter((route) => !route.isPrivate);
 
+  const renderRoutes = (route) => {
+    const Component = route?.component;
+    return (
+      <Route
+        key={uuidv4()}
+        path={route?.path}
+        exact={route?.exact}
+        element={<Component useParams={useParams} navigate={navigate} />}
+      />
+    );
+  };
+
   return (
     <Layout navigate={navigate}>
       <Routes>
+        <Route path="/" element={<Navigate to="/home" />} />
         {privateRoutes &&
-          privateRoutes.map((route) => {
-            const Component = route?.component;
-            return (
-              <Route element={<PrivateRoute />}>
-                <Route
-                  key={uuidv4()}
-                  path={route?.path}
-                  exact={route?.exact}
-                  element={<Component useParams={useParams} navigate={navigate} test="test" />}
-                />
-              </Route>
-            );
-          })}
+          privateRoutes.map((route) => (
+            <Route element={<PrivateRoute />}>{renderRoutes(route)}</Route>
+          ))}
 
-        {publicRoutes &&
-          publicRoutes.map((route) => {
-            const Component = route?.component;
-            return (
-              <Route
-                key={uuidv4()}
-                path={route?.path}
-                exact={route?.exact}
-                element={<Component navigate={navigate} />}
-              />
-            );
-          })}
+        {publicRoutes && publicRoutes.map((route) => renderRoutes(route))}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
